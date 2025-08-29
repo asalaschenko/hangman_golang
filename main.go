@@ -9,11 +9,11 @@ import (
 )
 
 func main() {
-	game := сreateDI()
+	game := CreateDI()
 	game.StartGame()
 }
 
-func сreateDI() *core.Core {
+func CreateDI() *core.Core {
 	loaderWordObj := loader.NewLoader("./resource/words.txt")
 
 	gameLoopObj := game.NewGame()
