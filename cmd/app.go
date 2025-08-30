@@ -9,15 +9,15 @@ import (
 )
 
 func CreateDI() *core.Core {
-	loaderWordObj := loader.NewLoader("../resource/words.txt")
+	loaderWord := loader.NewLoader("../resource/words.txt")
 
-	gameLoopObj := game.NewGame()
+	gameLoop := game.NewGame()
 
-	displayObj := display.NewDisplay("../resource/help.txt", "Приветствую в игре Виселица !", "ГЛАВНОЕ МЕНЮ")
+	display := display.NewDisplay("../resource/help.txt", "Приветствую в игре Виселица !", "ГЛАВНОЕ МЕНЮ")
 
-	commandObj := command.NewCommand()
+	command := command.NewCommand()
 
-	coreObj := core.NewCore(displayObj, commandObj, gameLoopObj, loaderWordObj)
+	core := core.NewCore(display, command, gameLoop, loaderWord)
 
-	return coreObj
+	return core
 }
