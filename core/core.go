@@ -21,6 +21,7 @@ func NewCore(DP IDisplay, GC IGetCommand, GL IGameLoop, LDR ILoader) *Core {
 }
 
 func (c *Core) StartGame() {
+	c.DP.DisplayStartPhrase()
 	for {
 		c.DP.DisplayMenu()
 		c.GC.EnterGameCommand()

@@ -31,8 +31,8 @@ func (g *Game) StartGameLoop() {
 	countOfAttempts := ReturnNumberOfAttempts(g.level)
 	g.resultGame = ""
 
-	fmt.Println()
 	common.PrintYellowText("Игра началась ! Чтобы выйти в главное меню, введите EXIT")
+	fmt.Println()
 
 	for {
 		if countOfAttempts == 0 {
@@ -43,7 +43,6 @@ func (g *Game) StartGameLoop() {
 			break
 		}
 
-		fmt.Println()
 		displayProgress(countOfAttempts, wrongLetters, playWord)
 
 		inputLetter := g.ReadSingleChar()
@@ -53,6 +52,7 @@ func (g *Game) StartGameLoop() {
 
 		if IsRussianLetter(inputLetter) && slices.Contains(word, string(inputLetter)) {
 			fmt.Println("Такая буква есть !")
+			fmt.Println()
 			for _, v := range FindAllIndexes(wordFull, string(inputLetter)) {
 				playWord[v] = wordFull[v]
 			}
@@ -60,33 +60,39 @@ func (g *Game) StartGameLoop() {
 		} else {
 			if !IsRussianLetter(inputLetter) {
 				fmt.Println("Необходимо ввести русскую букву !")
+				fmt.Println()
 				continue
 			}
 
 			if slices.Contains(playWord, string(inputLetter)) || strings.Contains(wrongLetters, string(inputLetter)) {
 				fmt.Println("Буква уже была !")
+				fmt.Println()
 				continue
 			}
 
 			if !slices.Contains(word, string(inputLetter)) {
 				fmt.Println("Такой буквы нет !")
+				fmt.Println()
 				countOfAttempts--
 				wrongLetters += string(inputLetter)
 				continue
 			}
 		}
-
 	}
 }
 
 func (g *Game) DisplayResult() {
 	switch g.resultGame {
 	case "WIN":
-		common.PrintYellowText("Слово: " + g.word + "\nВы выиграли ! Вы отгадали все буквы !\n")
+		fmt.Println()
+		common.PrintYellowText("Слово: " + strings.ToUpper(g.word) + "\nВы выиграли ! Вы отгадали все буквы !\n")
 	case "LOSE":
-		common.PrintRedBackgroundText("Вы проиграли ! Загаданное слово: " + g.word + "\n")
+		fmt.Println()
+		common.PrintRedBackgroundText("Вы проиграли ! Загаданное слово: " + g.word)
+		fmt.Println()
 	case "EXIT":
-		common.PrintRedText("Вы вышли !")
+		fmt.Println()
+		common.PrintRedText("Вы вышли !\n")
 	}
 }
 

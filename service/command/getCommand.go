@@ -16,7 +16,7 @@ func NewCommand() *Command {
 }
 
 func (c *Command) EnterLevelCommand() {
-	fmt.Println("Введите 1, 2 или 3")
+	fmt.Println("Введите 1, 2 или 3:")
 	for {
 		flag := true
 		var text string
@@ -31,16 +31,17 @@ func (c *Command) EnterLevelCommand() {
 			c.commandLevel = "HARD"
 		default:
 			flag = false
-			fmt.Println("Введите 1, 2 или 3")
+			fmt.Println("Введите 1, 2 или 3:")
 		}
 		if flag {
 			break
 		}
 	}
+	fmt.Println()
 }
 
 func (c *Command) EnterGameCommand() {
-	fmt.Println("Введите 1, 2 или 3")
+	fmt.Println("Введите 1, 2 или 3:")
 	for {
 		flag := true
 		var text string
@@ -55,12 +56,13 @@ func (c *Command) EnterGameCommand() {
 			c.commandLevel = "EXIT"
 		default:
 			flag = false
-			fmt.Println("Введите 1, 2 или 3")
+			fmt.Println("Введите 1, 2 или 3:")
 		}
 		if flag {
 			break
 		}
 	}
+	fmt.Println()
 }
 
 func (c *Command) EnterLengthCommand() {
@@ -76,6 +78,7 @@ func (c *Command) EnterLengthCommand() {
 			fmt.Println("Неверно ! Введите длину слова от 3 до 8:")
 		}
 	}
+	fmt.Println()
 }
 
 func (c *Command) ReadCommandLength() int {

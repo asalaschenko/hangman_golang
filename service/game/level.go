@@ -1,7 +1,7 @@
 package game
 
 const (
-	HARD   = 3
-	MEDIUM = 5
-	EASY   = 8
+	HARD   = 5
+	MEDIUM = 7
+	EASY   = 10
 )

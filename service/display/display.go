@@ -1,6 +1,7 @@
 package display
 
 import (
+	"fmt"
 	"hangman/common"
 	"os"
 )
@@ -23,9 +24,15 @@ func NewDisplay(helpInfoPath string, startintPhrase string, textMenu string) *Di
 
 func (d *Display) DisplayHelp() {
 	common.PrintYellowText(d.help)
+	fmt.Println()
 }
 
 func (d *Display) DisplayMenu() {
-	common.PrintYellowText(d.StartingPhrase)
 	common.PrintRedBackgroundText(d.TextMenu)
+	fmt.Println()
+}
+
+func (d *Display) DisplayStartPhrase() {
+	common.PrintYellowText(d.StartingPhrase)
+	fmt.Println()
 }

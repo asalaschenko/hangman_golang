@@ -3,6 +3,7 @@ package core
 type IDisplay interface {
 	DisplayMenu()
 	DisplayHelp()
+	DisplayStartPhrase()
 }
 
 type IGetCommand interface {
