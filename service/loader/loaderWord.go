@@ -15,9 +15,9 @@ type Loader struct {
 }
 
 func NewLoader(filePath string) *Loader {
-	value := &Loader{
+	value1 := &Loader{
 		filePath: filePath}
-	return value
+	return value1
 }
 
 func (l *Loader) SelectRandom(length int) string {
