@@ -1,7 +1,7 @@
 package game
 
 import (
-	"hangman/common"
+	"hangman/display"
 	"strings"
 )
 
@@ -10,11 +10,11 @@ func displayProgress(count int, wrongLetter string, playWord []string) {
 	for range count {
 		status += " |"
 	}
-	common.PrintRedText(status)
+	display.PrintRedText(status)
 
 	status = "Неправильные буквы: "
 	status += wrongLetter
-	common.PrintRedText(status)
+	display.PrintRedText(status)
 
-	common.PrintRedText(strings.Join(playWord, ""))
+	display.PrintRedText(strings.Join(playWord, ""))
 }

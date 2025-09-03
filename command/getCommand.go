@@ -5,6 +5,11 @@ import (
 	"strconv"
 )
 
+const (
+	MIN_LENGTH_WORD = 3
+	MAX_LENGTH_WORD = 10
+)
+
 type Command struct {
 	commandGame   string
 	commandLevel  string
@@ -16,52 +21,49 @@ func NewCommand() *Command {
 }
 
 func (c *Command) EnterLevelCommand() {
+	var levelMap = map[string]string{
+		"1": "EASY",
+		"2": "MEDIUM",
+		"3": "HARD",
+	}
+
 	fmt.Println("Введите 1, 2 или 3:")
 	for {
-		flag := true
 		var text string
 		fmt.Println("1-EASY\n2-MEDIUM\n3-HARD")
 		fmt.Scanln(&text)
-		switch text {
-		case "1":
-			c.commandLevel = "EASY"
-		case "2":
-			c.commandLevel = "MEDIUM"
-		case "3":
-			c.commandLevel = "HARD"
-		default:
-			flag = false
+
+		if v, ok := levelMap[text]; ok {
+			c.commandLevel = v
+			break
+		} else {
 			fmt.Println("Введите 1, 2 или 3:")
 		}
-		if flag {
-			break
-		}
 	}
+
 	fmt.Println()
 }
 
 func (c *Command) EnterGameCommand() {
+	var commandMap = map[string]string{
+		"1": "START",
+		"2": "HELP",
+		"3": "EXIT",
+	}
+
 	fmt.Println("Введите 1, 2 или 3:")
 	for {
-		flag := true
 		var text string
 		fmt.Println("1-START\n2-HELP\n3-EXIT")
 		fmt.Scanln(&text)
-		switch text {
-		case "1":
-			c.commandLevel = "START"
-		case "2":
-			c.commandLevel = "HELP"
-		case "3":
-			c.commandLevel = "EXIT"
-		default:
-			flag = false
+		if v, ok := commandMap[text]; ok {
+			c.commandGame = v
+			break
+		} else {
 			fmt.Println("Введите 1, 2 или 3:")
 		}
-		if flag {
-			break
-		}
 	}
+
 	fmt.Println()
 }
 
@@ -71,7 +73,7 @@ func (c *Command) EnterLengthCommand() {
 	for {
 		fmt.Scanln(&value1)
 		value2, err := strconv.Atoi(value1)
-		if err == nil && value2 >= 3 && value2 <= 8 {
+		if err == nil && value2 >= MIN_LENGTH_WORD && value2 <= MAX_LENGTH_WORD {
 			c.commandLength = value2
 			break
 		} else {
@@ -90,5 +92,5 @@ func (c *Command) ReadCommandLevel() string {
 }
 
 func (c *Command) ReadCommandGame() string {
-	return c.commandLevel
+	return c.commandGame
 }

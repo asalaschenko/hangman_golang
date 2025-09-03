@@ -2,7 +2,7 @@ package display
 
 import (
 	"fmt"
-	"hangman/common"
+	"log/slog"
 	"os"
 )
 
@@ -13,9 +13,16 @@ type Display struct {
 }
 
 func NewDisplay(helpInfoPath string, startintPhrase string, textMenu string) *Display {
+	const op = "display.NewDisplay"
+	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelError})).With(
+		slog.String("op", op),
+	)
+
 	value := new(Display)
 	data, err := os.ReadFile(helpInfoPath)
-	common.CheckErr(err)
+	if err != nil {
+		logger.Error("error of reading file")
+	}
 	value.help = string(data)
 	value.StartingPhrase = startintPhrase
 	value.TextMenu = textMenu
@@ -23,16 +30,16 @@ func NewDisplay(helpInfoPath string, startintPhrase string, textMenu string) *Di
 }
 
 func (d *Display) DisplayHelp() {
-	common.PrintYellowText(d.help)
+	PrintYellowText(d.help)
 	fmt.Println()
 }
 
 func (d *Display) DisplayMenu() {
-	common.PrintRedBackgroundText(d.TextMenu)
+	PrintRedBackgroundText(d.TextMenu)
 	fmt.Println()
 }
 
 func (d *Display) DisplayStartPhrase() {
-	common.PrintYellowText(d.StartingPhrase)
+	PrintYellowText(d.StartingPhrase)
 	fmt.Println()
 }

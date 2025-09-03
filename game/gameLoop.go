@@ -2,23 +2,30 @@ package game
 
 import (
 	"fmt"
-	"hangman/common"
+	"hangman/display"
+	"regexp"
 	"slices"
 	"strings"
 	"unicode/utf8"
 )
 
-type Game struct {
+type GameLoop struct {
 	word       string
 	resultGame string
 	level      string
 }
 
-func NewGame() *Game {
-	return new(Game)
+var NumberOfAttemptsMap = map[string]int{
+	"HARD":   5,
+	"MEDIUM": 7,
+	"EASY":   10,
 }
 
-func (g *Game) StartGameLoop() {
+// func NewGameLoop() *GameLoop {
+// 	return new(GameLoop)
+// }
+
+func (g *GameLoop) StartGameLoop() {
 	playWordString := ""
 	for i := 0; i < utf8.RuneCountInString(g.word); i++ {
 		playWordString += string('-')
@@ -28,18 +35,18 @@ func (g *Game) StartGameLoop() {
 	wordFull := word
 	playWord := Split(playWordString)
 	wrongLetters := ""
-	countOfAttempts := ReturnNumberOfAttempts(g.level)
+	countOfAttempts := NumberOfAttemptsMap[g.level]
 	g.resultGame = ""
 
-	common.PrintYellowText("Игра началась ! Чтобы выйти в главное меню, введите EXIT")
+	display.PrintYellowText("Игра началась ! Чтобы выйти в главное меню, введите EXIT")
 	fmt.Println()
 
 	for {
 		if countOfAttempts == 0 {
-			g.resultGame = common.LOSE
+			g.resultGame = "LOSE"
 			break
 		} else if len(word) == 0 {
-			g.resultGame = common.WIN
+			g.resultGame = "WIN"
 			break
 		}
 
@@ -81,22 +88,22 @@ func (g *Game) StartGameLoop() {
 	}
 }
 
-func (g *Game) DisplayResult() {
+func (g *GameLoop) DisplayResult() {
 	switch g.resultGame {
 	case "WIN":
 		fmt.Println()
-		common.PrintYellowText("Слово: " + strings.ToUpper(g.word) + "\nВы выиграли ! Вы отгадали все буквы !\n")
+		display.PrintYellowText("Слово: " + strings.ToUpper(g.word) + "\nВы выиграли ! Вы отгадали все буквы !\n")
 	case "LOSE":
 		fmt.Println()
-		common.PrintRedBackgroundText("Вы проиграли ! Загаданное слово: " + g.word)
+		display.PrintRedBackgroundText("Вы проиграли ! Загаданное слово: " + g.word)
 		fmt.Println()
 	case "EXIT":
 		fmt.Println()
-		common.PrintRedText("Вы вышли !\n")
+		display.PrintRedText("Вы вышли !\n")
 	}
 }
 
-func (g *Game) ReadSingleChar() rune {
+func (g *GameLoop) ReadSingleChar() rune {
 	var input string
 	for {
 		fmt.Scanln(&input)
@@ -104,7 +111,7 @@ func (g *Game) ReadSingleChar() rune {
 			g.resultGame = strings.ToUpper(input)
 			return 0
 		} else if utf8.RuneCountInString(input) > 1 || input == "" {
-			common.PrintRedText("Введите 1 букву !")
+			display.PrintRedText("Введите 1 букву !")
 			continue
 		} else {
 			s := []rune(input)
@@ -113,14 +120,43 @@ func (g *Game) ReadSingleChar() rune {
 	}
 }
 
-func (g *Game) SetWord(word string) {
-	g.word = word
+func IsRussianLetter(char rune) bool {
+	// Регулярное выражение для русских букв (включая ё)
+	russianPattern := regexp.MustCompile(`^[а-яёА-ЯЁ]$`)
+	return russianPattern.MatchString(string(char))
 }
 
-func (g *Game) SetCountOfAttempts(level string) {
-	g.level = level
+func IsEnglishLetter(char rune) bool {
+	// Регулярное выражение для английских букв
+	englishPattern := regexp.MustCompile(`^[a-zA-Z]$`)
+	return englishPattern.MatchString(string(char))
 }
 
-func (g *Game) GetResultGame() string {
-	return g.resultGame
+func Split(str string) []string {
+	array := strings.Split(str, "")
+	return array
+}
+
+func FindAllIndexes(slice []string, target string) []int {
+	var indexes []int
+
+	for i, value := range slice {
+		if value == target {
+			indexes = append(indexes, i)
+		}
+	}
+
+	return indexes
+}
+
+func RemoveString(slice *[]string, target string) {
+	var result []string
+
+	for _, value := range *slice {
+		if value != target {
+			result = append(result, value)
+		}
+	}
+
+	*slice = result
 }
